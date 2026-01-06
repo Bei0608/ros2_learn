@@ -1,0 +1,2 @@
+Invoking command in '/home/bei/ros2_learn/chapt2/chapt_ws/build/demo_cpp_pkg': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/bei/ros2_learn/chapt2/chapt_ws/src/demo_cpp_pkg -DCMAKE_INSTALL_PREFIX=/home/bei/ros2_learn/chapt2/chapt_ws/install/demo_cpp_pkg
+Invoked command in '/home/bei/ros2_learn/chapt2/chapt_ws/build/demo_cpp_pkg' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/bei/ros2_learn/chapt2/chapt_ws/src/demo_cpp_pkg -DCMAKE_INSTALL_PREFIX=/home/bei/ros2_learn/chapt2/chapt_ws/install/demo_cpp_pkg

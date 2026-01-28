@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(chapt4_interfaces)
+project(demo_cpp_topic)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,15 +7,28 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rosidl_default_generators REQUIRED)  # ROSIDL 默认生成器
-find_package(sensor_msgs REQUIRED)   # 图像消息接口  sensor_msgs/smg/Image
+find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(turtlesim REQUIRED)
 
+add_executable(turtle_circle src/turtle_circle.cpp)
 
-# 注册、声明自定义接口
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "srv/FaceDetector.srv"   # 添加自定义服务接口文件
-  "srv/Patrol.srv"
-  DEPENDENCIES sensor_msgs  # 指定依赖的消息包
+ament_target_dependencies(turtle_circle
+  rclcpp 
+  geometry_msgs
+)
+
+add_executable(turtle_control src/turtle_control.cpp)
+ament_target_dependencies(turtle_control
+  rclcpp
+  geometry_msgs
+  turtlesim
+)
+
+install(TARGETS
+    turtle_control
+    turtle_circle
+    DESTINATION lib/${PROJECT_NAME}
 )
 
 

@@ -13,7 +13,7 @@ class FaceDetectNode(Node):
         super().__init__('face_detect_node')
         
         # opencv 和 ROS2 的 Image格式不兼容，需要使用ROS2提供的 CvBridge 进行转换
-        # 用于将opencv的image格式转换为ROS2的Image格式，反之亦然
+        # 用于将 opencv 的image格式转换为ROS2的Image格式，反之亦然
         self.bridge = CvBridge()
         
         # 创建一个名为/face_detect的服务，服务类型为FaceDetect
@@ -22,7 +22,8 @@ class FaceDetectNode(Node):
         self.server = self.create_service(FaceDetector, '/face_detect', self.
                                           detect_face_callback)
         self.defaut_image_path = get_package_share_directory('demo_python_service') + \
-            '/resource/default.jpg'
+            '/resource/test1.jpg'
+        # 设置人脸检测的参数
         self.upsample_times = 1
         self.model = "hog"
         
@@ -30,8 +31,11 @@ class FaceDetectNode(Node):
     def detect_face_callback(self,request,response):
         
         # 判断请求中是否包含图像数据，如果有则使用请求中的图像进行人脸检测
-        # 如果没有图像数据，则使用默认图像进行人脸检测         
+        # 如果没有图像数据，则使用默认图像进行人脸检测
+        # 1. 【读 request】：像读取函数参数一样，拿客户端传来的数据
+        # "客户端，你传给我的 image 里有数据吗？"         
         if request.image.data:
+            # "既然有，那我就拿这个 image 去做转换"
             cv_image = self.bridge.imgmsg_to_cv2(request.image)
         else:
             cv_image = cv2.imread(self.defaut_image_path)
@@ -53,8 +57,10 @@ class FaceDetectNode(Node):
         end_time = time.time()
         
         self.get_logger().info(f'检测完成，耗时{end_time - start_time}')
-        
+         
 
+        # 2. 【写 response】：像填写函数返回值一样，把结果存进去
+        # 注意：此时 response 还是空的（或者全是0），你要把结果填进去
         response.number = len(face_locations)
         response.use_time = end_time - start_time
         
@@ -69,6 +75,7 @@ class FaceDetectNode(Node):
             response.bottom.append(bottom)
             response.left.append(left)
         
+        # 3. 【返回】：把填好的结果交回给 ROS，ROS 会负责把它传回给客户端
         return response
     
     

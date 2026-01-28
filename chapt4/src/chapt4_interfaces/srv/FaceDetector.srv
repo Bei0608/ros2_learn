@@ -1,7 +1,7 @@
-sensor_msgs/Image image   # 原始图像   --- 不能有注释，必须干净
+sensor_msgs/Image image   # 原始图像   --- 不能有注释，必须干净   request
 
 ---
-int16 number      # 检测到的人脸数量
+int16 number      # 检测到的人脸数量     response
 float32 use_time  # 检测所用时间 (ms)
 int32[] top       # 人脸在图像中的位置
 int32[] right  
